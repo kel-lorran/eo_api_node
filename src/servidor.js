@@ -27,11 +27,15 @@ app.post('/produto', (req, res, next) => {
 })
 app.put('/produto/:id', (req, res, next) => {
     let produtoASerRetornado = dataBase.atualizarProduto({
-        id: req.body.id,
+        ID: req.params.id,
         nome: req.body.nome,
         preco: req.body.preco
     })
     res.send( produtoASerRetornado)
+})
+app.delete('/produto/:id', (req,  res, net) => {
+    let produtoExcluido = dataBase.deletarProduto( req.params.id)
+    res.send( produtoExcluido)
 })
 
 app.listen( porta, () => { console.log( `servidor executando na porta ${porta}`)})
