@@ -59,3 +59,9 @@ typings/
 
 # next.js build output
 .next
+
+# scripts temporarios, teste de features de terceiros
+src/teste/*
+
+# editor
+.vscode/
