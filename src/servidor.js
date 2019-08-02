@@ -9,6 +9,7 @@ const strPathDataBase = __dirname+'/../db/products.csv'
 var dataBase = new DataBaseCSV( strPathDataBase)
 
 
+app.use( bodyParser.json())
 app.use( bodyParser.urlencoded({ extended: true}))
 
 app.get('/produtos', (req, res, next) => {
@@ -16,14 +17,23 @@ app.get('/produtos', (req, res, next) => {
 })
 app.get('/produto/:id',( req, res, next) => {
     let idDoProduto = req.params.id
-    res.send( dataBase.getProduto( idDoProduto))
+    let result = dataBase.getProduto( idDoProduto)
+    if( result){
+        res.status(200).send( result)
+    } else {
+        res.status(404).send({ message: 'Produto não econtrado'})
+    }
 })
 app.post('/produto', (req, res, next) => {
     let produtoASerRetornado = dataBase.salvarProduto({
         nome: req.body.nome,
         preco: req.body.preco
     })
-    res.send( produtoASerRetornado)
+    if( produtoASerRetornado){
+        res.status(200).send( produtoASerRetornado)
+    } else {
+        res.status(404).send({ message: 'Parametros inconsistentes'})
+    }
 })
 app.put('/produto/:id', (req, res, next) => {
     let produtoASerRetornado = dataBase.atualizarProduto({
@@ -31,11 +41,19 @@ app.put('/produto/:id', (req, res, next) => {
         nome: req.body.nome,
         preco: req.body.preco
     })
-    res.send( produtoASerRetornado)
+    if( produtoASerRetornado){
+        res.status(200).send( produtoASerRetornado)
+    } else {
+        res.status(404).send({ message: 'Produto não econtrado'})
+    }
 })
 app.delete('/produto/:id', (req,  res, net) => {
     let produtoExcluido = dataBase.deletarProduto( req.params.id)
-    res.send( produtoExcluido)
+    if( produtoExcluido){
+        res.status(200).send( produtoExcluido)
+    } else {
+        res.status(404).send({ message: 'Produto não econtrado'})
+    }
 })
 
 app.listen( porta, () => { console.log( `servidor executando na porta ${porta}`)})

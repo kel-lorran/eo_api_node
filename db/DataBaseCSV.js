@@ -31,10 +31,11 @@ class DataBaseCSV{
         if( trueId < this.data.length){
             return this.data[ trueId]
         }
-        return {}
+        return null
     }
     salvarProduto( produto){
         produto.ID = (this.idCorrente += 1)
+        if(Object.values( produto).filter( e => !e).length) return null
         this.data.push( produto)
         this.persisitir()
         return produto
@@ -55,6 +56,7 @@ class DataBaseCSV{
         let trueId = id - 1
         let listaProdutoASerManipulada = this.data
         let produtoExcluido = this.data[ trueId]
+        if( ! produtoExcluido) return null
         listaProdutoASerManipulada.splice( trueId, 1)
         this.data = listaProdutoASerManipulada
         this.persisitir()
