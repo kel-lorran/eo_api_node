@@ -1,0 +1,1 @@
+na documentação da API fpi utilizado API blueprint e compilada em html
